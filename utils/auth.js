@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import firebase from "./firebase";
-//import { formatWithValidation } from "next/dist/next-server/lib/utils";
-//import { unstable_batchedUpdates } from "react-dom";
+import { formatWithValidation } from "next/dist/next-server/lib/utils";
+import { unstable_batchedUpdates } from "react-dom";
 import { createUser } from "./db";
 
 const authContext = createContext();
