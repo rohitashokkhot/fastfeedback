@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 import firebase from "./firebase";
 //import { formatWithValidation } from "next/dist/next-server/lib/utils";
 //import { unstable_batchedUpdates } from "react-dom";
+import { createUser } from "./db";
 
 const authContext = createContext();
 
@@ -16,23 +17,24 @@ export const useAuth = () => {
 
 function useProvideAuth() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const handleUser = (rawUser) => {
     if (rawUser) {
       const user = formatUser(rawUser);
-      setLoading(false);
+      //setLoading(false);
+      createUser(user.uid, user);
       setUser(user);
       return user;
     } else {
-      setLoading(false);
+      //setLoading(false);
       setUser(false);
       return false;
     }
   };
 
   const signinWithGithub = () => {
-    setLoading(true);
+    //setLoading(true);
     return firebase
       .auth()
       .signInWithPopup(new firebase.auth.GithubAuthProvider())
@@ -53,7 +55,7 @@ function useProvideAuth() {
 
   return {
     user,
-    loading,
+    //loading,
     signinWithGithub,
     signout,
   };
@@ -64,6 +66,6 @@ const formatUser = (user) => {
     email: user.email,
     name: user.displayName,
     provider: user.providerData[0].providerId,
-    photoUrl: user.photoUrl,
+    photoUrl: user.photoURL,
   };
 };
